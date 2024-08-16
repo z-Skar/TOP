@@ -66,7 +66,7 @@ function playRound(computerChoice, playerChoice) {
 }
 
 function playGame() {
-    for (let round = 1; round <= 5; round++) {
+    for (let round = 1; round <= 5; round++) { // The game will have in total 5 rounds.
         playRound(getComputerChoice(), getPlayerChoice());
     }
     console.log("Computer Score: " + computerScore)
