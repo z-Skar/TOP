@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link defer rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./style.css">
         <script defer src="game.js"></script>
         <title>Game: Rock Paper Scissors | The Odin Project</title>
     </head>
@@ -13,33 +13,28 @@
         <div class="game">
             <div class="player">
                 <div>
-                    <p id="playerScore">
-
-                    </p>
+                    <p id="playerScore"></p>
                 </div>
                 
                 <div class="options">
-                    <button><img src="./resources/rock.jpg" alt="Rock"></button>
-                    <button><img src="./resources/paper.png" alt="Paper"></button>
-                    <button><img src="./resources/scissors.png" alt="Scissors"></button>
+                    <button id="Rock"><img src="./resources/rock.jpg" alt="Rock"></button>
+                    <button id="Paper"><img src="./resources/paper.png" alt="Paper"></button>
+                    <button id="Scissors"><img src="./resources/scissors.png" alt="Scissors"></button>
                 </div>
+                <p id="playerPick">Take your pick</p>
             </div>
 
             <div class="computer">
                 <div>
-                    <p id="computerScore">
-
-                    </p>
+                    <p id="computerScore"></p>
                 </div>
 
                 <div class="options">
-                    <img src="./resources/V-sign.png" alt="Computer made a pick">
+                    <img id="computerChoice" src="./resources/V-sign.png" alt="Computer made a pick">
                 </div>
-                <p>Oponent made a pick</p>
+                <p>Opponent made a pick</p>
             </div>
         </div>
-        <div class="result">
-
-        </div>
+        <div><h1 id="result"></h1></div>
     </body>
 </html>
