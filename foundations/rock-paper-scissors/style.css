@@ -1,14 +1,20 @@
-html, body {
+body {
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(255,39,39,1) 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
-}
-
-#title {
+    overflow: hidden;
     text-align: center;
+    min-height: 100vh;
+    height: 100%;
 }
 
 img {
     height: 150px;
-    width: auto;
+    width: 150px;
+}
+
+.game {
+    margin: 300px 150px;
+    display: flex;
+    justify-content: space-between;
 }
