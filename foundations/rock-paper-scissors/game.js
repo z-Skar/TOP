@@ -66,7 +66,7 @@ function playRound(computerChoice, playerChoice) {
 }
 
 function playGame() {
-    for (let round = 1; round <= 5; round++) { // The game will have in total 5 rounds.
+    for (let round = 1; round <= 5; round++) {
         playRound(getComputerChoice(), getPlayerChoice());
     }
     console.log("Computer Score: " + computerScore)
@@ -83,4 +83,12 @@ function playGame() {
     }
 }
 
-playGame();
+const TITLE = document.querySelector("#title");
+const COMPUTER_SCORE = document.querySelector("#computerScore");
+const PLAYER_SCORE = document.querySelector("#playerScore");
+
+
+for (let round = 1; playerScore < 4 && computerScore < 4; round++) {
+    playRound(getComputerChoice(), getPlayerChoice());
+    TITLE.textContent = `ROUND ${round}`;
+}

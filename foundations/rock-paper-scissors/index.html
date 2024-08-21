@@ -3,10 +3,43 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="game.js"></script>
+        <link defer rel="stylesheet" href="./style.css">
+        <script defer src="game.js"></script>
         <title>Game: Rock Paper Scissors | The Odin Project</title>
     </head>
     <body>
-        
+        <div><h1 id="title"></h1></div>
+
+        <div class="game">
+            <div class="player">
+                <div>
+                    <p id="playerScore">
+
+                    </p>
+                </div>
+                
+                <div class="options">
+                    <button><img src="./resources/rock.jpg" alt="Rock"></button>
+                    <button><img src="./resources/paper.png" alt="Paper"></button>
+                    <button><img src="./resources/scissors.png" alt="Scissors"></button>
+                </div>
+            </div>
+
+            <div class="computer">
+                <div>
+                    <p id="computerScore">
+
+                    </p>
+                </div>
+
+                <div class="options">
+                    <img src="./resources/V-sign.png" alt="Computer made a pick">
+                </div>
+                <p>Oponent made a pick</p>
+            </div>
+        </div>
+        <div class="result">
+
+        </div>
     </body>
 </html>

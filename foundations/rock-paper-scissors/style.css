@@ -1,0 +1,13 @@
+body {
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(255,39,39,1) 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+img {
+    height: 150px;
+    width: auto;
+}
