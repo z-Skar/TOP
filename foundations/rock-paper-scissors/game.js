@@ -97,7 +97,9 @@ async function playGame() {
         RESULT.textContent = playRound(computerChoice, playerChoice);
         setTimeout(() => {
             COMPUTER_CHOICE.src = "./resources/V-sign.png";
-            RESULT.textContent = "";
+            if (playerScore < 5 && computerScore < 5) {
+                RESULT.textContent = "";
+            }
         }, 2000);
     };
 
