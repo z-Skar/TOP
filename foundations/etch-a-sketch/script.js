@@ -1,18 +1,20 @@
-function divCreator(className) {
+const GRID = document.querySelector(".grid");
+
+function divCreator(className, proportion) {
     const DIV = document.createElement("div");
     DIV.className = className;
+    DIV.setAttribute("style", `flex: 0 0 ${parseFloat(getComputedStyle(GRID).width)/(proportion)}px`)
     return DIV;
 }
 
-const GRID = document.querySelector(".grid");
-const GRID_FRAG = document.createDocumentFragment();
-
-for (let i = 0; i < 16; i++) {
-    const COL_FRAG = divCreator("col-grid")
-    for (let j = 0; j < 16; j++) {
-        COL_FRAG.appendChild(divCreator("div-in-grid"));
+function gridCreator(proportion) {
+    const GRID_FRAG = document.createDocumentFragment();
+    for (let i = 0; i < proportion; i++) {
+        for (let j = 0; j < proportion; j++) {
+            GRID_FRAG.appendChild(divCreator("div-in-grid", proportion));
+        };
     };
-    GRID_FRAG.appendChild(COL_FRAG);
+    GRID.appendChild(GRID_FRAG);
 };
 
-GRID.appendChild(GRID_FRAG);
+gridCreator(10);
