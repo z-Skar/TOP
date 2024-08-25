@@ -3,7 +3,7 @@ const GRID = document.querySelector(".grid");
 function divCreator(className, proportion) {
     const DIV = document.createElement("div");
     DIV.className = className;
-    DIV.setAttribute("style", `flex: 0 0 ${parseFloat(getComputedStyle(GRID).width)/(proportion)}px`)
+    DIV.style.flex = `0 0 ${parseFloat(getComputedStyle(GRID).width)/(proportion)}px`;
     return DIV;
 }
 
@@ -17,4 +17,8 @@ function gridCreator(proportion) {
     GRID.appendChild(GRID_FRAG);
 };
 
-gridCreator(10);
+
+gridCreator(30);
+GRID.addEventListener("mouseover", (event) => {
+    event.target.style.backgroundColor = "#FF0000";
+});
