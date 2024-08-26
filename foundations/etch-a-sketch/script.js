@@ -36,5 +36,8 @@ IN_RATIO.addEventListener("input", (event) => {
 GRID.addEventListener("mouseover", (event) => {
     if (event.target.style.backgroundColor === "") {
         event.target.style.backgroundColor = randomRGB();
+        event.target.style.opacity = "0.2";
+    } else {
+        event.target.style.opacity = parseFloat(event.target.style.opacity) + 0.2;
     }
 });
