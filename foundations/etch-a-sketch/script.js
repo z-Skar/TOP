@@ -19,6 +19,11 @@ function gridCreator(proportion) {
     GRID.appendChild(GRID_FRAG);
 };
 
+function randomRGB() {
+    let randomRGB = "rgb(" + Math.floor(Math.random() * 255) + ", " + Math.floor(Math.random() * 255) + ", " + Math.floor(Math.random() * 255) + ")";
+    return randomRGB;
+}
+
 OUT_RATIO.textContent = IN_RATIO.value;
 gridCreator(IN_RATIO.value);
 
@@ -29,5 +34,7 @@ IN_RATIO.addEventListener("input", (event) => {
 });
 
 GRID.addEventListener("mouseover", (event) => {
-    event.target.style.backgroundColor = "#FF0000";
+    if (event.target.style.backgroundColor === "") {
+        event.target.style.backgroundColor = randomRGB();
+    }
 });
