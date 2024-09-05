@@ -30,7 +30,7 @@ body {
     padding-top: 10px;
 }
 
-.buttons, .number-line, .number-top, .number-bottom{
+.buttons, .number-line{
     display: flex;
 }
 
