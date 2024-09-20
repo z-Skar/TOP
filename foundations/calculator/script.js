@@ -14,7 +14,7 @@ const backspace = () => {
 };
 
 const porcentage = (number) => {
-    if (number.toString().length <= 8) {
+    if (number.toString().length <= 9) {
         return INPUT_BAR.textContent = number;
     }
     return INPUT_BAR.textContent = parseFloat(number.toFixed(8));
@@ -26,11 +26,12 @@ const isValidKey = (key) => {
         key === '.' ||
         key === 'Backspace' ||
         key === 'Escape' ||
-        key === '%'
+        key === '%' ||
+        key === '+/-'
     );
 };
 
-const dotLimit = (value) => { // Function that verifies if the dot limit is breaked.
+const dotLimit = (value) => { // Function that verifies if the dot limit was broken.
     let dotCount = 0;
     for (let i = 0; i < INPUT_BAR.textContent.length; i++) {
         if (INPUT_BAR.textContent[i] === '.') {
@@ -58,6 +59,8 @@ const dotLimit = (value) => { // Function that verifies if the dot limit is brea
         clearInputBar();
     } else if (INPUT === 'Backspace') {
         backspace();
+    } else if (INPUT === '+/-') {
+        INPUT_BAR.textContent = Number(INPUT_BAR.textContent) * -1;
     } else if (INPUT === '%') {
         porcentage(Number(INPUT_BAR.textContent / 100));
     } else if (INPUT_BAR.textContent.length <= 8 && !dotLimit(INPUT) && (isValidKey(INPUT))) { 
