@@ -1,135 +1,160 @@
 // Selected elements
-const INPUT_BAR = document.querySelector(".input-bar");
+const DISPLAY = document.querySelector(".display");
 const CALCULATOR = document.querySelector("body");
 
 // Variables
-let firstTerm = '', secondTerm = '';
-let operation = '', lastOperation = '';
+let firstTerm, operator, secondTerm;
+let restartDisplay = false; // Variable that will tell if the display must restart to the number that the user wrote.
 
 // Functions
-const invertSignal = () => INPUT_BAR.textContent = Number(INPUT_BAR.textContent) * (-1);
-const clearInputBar = () => {
-    INPUT_BAR.textContent = '0';
-    firstTerm = '';
-    secondTerm = '';
-    operation = '';
-    lastOperation = '';
+function getDisplay() {
+    return DISPLAY.innerText;
 };
 
-const backspace = () => {
-    if (INPUT_BAR.textContent !== '0') {
-        INPUT_BAR.textContent = INPUT_BAR.textContent.slice(0, -1);
-        if (INPUT_BAR.textContent === '') INPUT_BAR.textContent = '0';
-    };
+function setDisplay(value) {
+    value !== '.' ? DISPLAY.innerText = value : DISPLAY.innerText = '0.';
 };
 
-const porcentage = (number) => {
-    number = number / 100;
-    if (number.toString().length < 9) {
-        return INPUT_BAR.textContent = number;
-    };
-    return INPUT_BAR.textContent = parseFloat(number.toFixed(8));
+function addNumberToDisplay(value) {
+    DISPLAY.innerText += value;
 };
 
-const isValidKey = (key) => {
-    return (!isNaN(parseInt(key)) || ['Backspace', 'Escape', '+/-', '%', '.'].includes(key));
+function isValidNumberOrDot(value) {
+    return !isNaN(parseInt(value)) || value === '.';
 };
 
-const isValidOperation = (key) => {
-    return (['+', '-', '*', '/', 'Enter'].includes(key));
-};
-
-const keyValidation = (key) => { // This function only returns true if the INPUT limit isn't broken nor the dot limit (1). The input must be a number.
-    if (INPUT_BAR.textContent.length < 10 && !dotLimit(key) && (!isNaN(parseInt(key)) || key === '.')) {
+function exceedsLengthLimit() {
+    if (DISPLAY.innerText.length > 8) {
         return true;
-    };
-    return false;
+    } return false;
 };
 
-const dotLimit = (value) => { // Function that verifies if the dot limit was broken.
-    for (let i = 0; i < INPUT_BAR.textContent.length; i++) {
-        if (INPUT_BAR.textContent[i] === '.' && value === '.') { // The input bar can only have 1 dot.
-            return true;
-        };
-    };
-    return false;
+function exceedsDotLimit(value) {
+    if (getDisplay().includes('.') && value === '.') {
+        return true;
+    } return false;
 };
 
-const doMath = (firstTerm, operation, secondTerm) => {
-    let result;
-    switch(operation) {
-        case '+':
-            result = (firstTerm + secondTerm).toString();
-            break;
-        case '-':
-            result = (firstTerm - secondTerm).toString();
-            break;
-        case '*':
-            result = (firstTerm * secondTerm).toString();
-            break;
-        case '/':
-            result = (firstTerm / secondTerm).toString();
-            break;
-    };
+function resetDisplay() {
+    setDisplay('0');
+    firstTerm = operator = secondTerm = undefined;
+};
 
-    if (result.includes('.'))
-    {
-        if (result.length > 9) {
-            return Number(result).toFixed(7);
+function changeSign() {
+    setDisplay(Number(DISPLAY.innerText * (-1)));
+};
+
+function preventLargeResult(result) {
+    if (result.length > 8) {
+        if (result.includes('.')) {
+            return Number(Number(result).toFixed(0)).toExponential(0);
         };
+        return Number(result).toExponential(0);
     };
     return result;
+}
+
+function calculatePercentage() {
+    setDisplay(preventLargeResult(Number(getDisplay() / 100).toString()));
 };
 
+function backspace() {
+    if (getDisplay().length === 1) {
+        setDisplay(0);
+    } else {
+        setDisplay(DISPLAY.innerText.slice(0, -1));
+    };
+};
+
+function isValidOperator(value) {
+    return ['+', '-', '*', '/'].includes(value);
+};
+
+function isInvalidInput(value) {
+    if (isValidNumberOrDot(value) || isValidOperator(value) || ['Escape', '+/-', '%', 'Backspace', 'Enter'].includes(value)) {
+        return false;
+    };
+    return true;
+};
+
+function calculate(firstTerm, operator, secondTerm) {
+    firstTerm = Number(firstTerm);
+    secondTerm = Number(secondTerm);
+    let result;
+    switch(operator) {
+        case '+':
+            result = firstTerm + secondTerm;
+            break;
+        case '-':
+            result = firstTerm - secondTerm;
+            break;
+        case '*':
+            result = firstTerm * secondTerm;
+            break;
+        case '/':
+            result = firstTerm / secondTerm;
+            break;
+    };
+    return preventLargeResult(result.toString());
+};
+
+function setVariablesForCalculate() {
+    secondTerm = getDisplay();
+    setDisplay(calculate(firstTerm, operator, secondTerm));
+    firstTerm = getDisplay();
+    secondTerm = undefined;
+};
 
 // Event Listeners
-['keydown', 'click'].forEach(event => CALCULATOR.addEventListener(event, button => {
-    const BUTTON_CLICKED = button.target.value;
-    const BUTTON_PRESSED = button.key;
+['keydown', 'click'].forEach(event => CALCULATOR.addEventListener(event, input => {
+    const BUTTON_CLICKED = input.target.value;
+    const BUTTON_PRESSED = input.key;
 
     const INPUT = event === 'click' ? BUTTON_CLICKED : BUTTON_PRESSED;
-    
-    // If the key or operator isn't valid, then it won't be allowed to behave.
-    if (event === 'keydown' && !(isValidKey(BUTTON_PRESSED) || isValidOperation(BUTTON_PRESSED))) {
-        button.preventDefault();
+
+    if(isInvalidInput(INPUT)) {
+        input.preventDefault();
         return;
     };
 
-    if (keyValidation(INPUT)) {
-        if ((INPUT_BAR.textContent === '0' && INPUT !== '.') || operation !== '') {
-            INPUT_BAR.textContent = INPUT;
-            lastOperation = operation;
-            operation = '';
+    if (isValidNumberOrDot(INPUT) && !exceedsDotLimit(INPUT)) {
+        if (exceedsLengthLimit() && restartDisplay === false) return;
+        if (getDisplay() === '0' || restartDisplay) {
+            setDisplay(INPUT);
+            restartDisplay = false;
         } else {
-            INPUT_BAR.textContent += INPUT;
+            addNumberToDisplay(INPUT);
         };
+        return;
     };
 
-    if (isValidOperation(INPUT)) {
-        if (INPUT !== 'Enter') operation = INPUT;
-        if (firstTerm === '') {
-            firstTerm = Number(INPUT_BAR.textContent);
-        } else {
-            secondTerm = Number(INPUT_BAR.textContent);
-        };
-    };
-
-    switch (INPUT) {
+    switch(INPUT) {
         case 'Escape':
-            clearInputBar();
+            resetDisplay();
             return;
+        case '+/-':
+            changeSign();
+            return;
+        case '%':
+            calculatePercentage();
+            return;  
         case 'Backspace':
             backspace();
             return;
-        case '+/-':
-            invertSignal(INPUT_BAR.textContent);
-            return;
-        case '%':
-            porcentage(Number(INPUT_BAR.textContent));
-            return;
-        case 'Enter':
-            INPUT_BAR.textContent = doMath(firstTerm, operation || lastOperation, secondTerm || Number(INPUT_BAR.textContent));
-            firstTerm = '';
-            return;
+    };
+
+    if (!operator) {
+        operator = INPUT;
+        firstTerm = getDisplay();
+        restartDisplay = true;
+    } else if (firstTerm && INPUT !== 'Enter') {
+        setVariablesForCalculate();
+        restartDisplay = true;
+    };
+
+    if (INPUT === 'Enter') {
+        setVariablesForCalculate();
+        operator = undefined;
+        restartDisplay = true;
     };
 }));
