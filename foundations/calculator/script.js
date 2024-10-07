@@ -1,6 +1,7 @@
 // Selected elements
 const DISPLAY = document.querySelector(".display");
 const CALCULATOR = document.querySelector("body");
+const OPERATORS = document.querySelectorAll(".operators > button");
 
 // Variables
 let firstTerm, operator, secondTerm;
@@ -38,6 +39,7 @@ function exceedsDotLimit(value) {
 function resetDisplay() {
     setDisplay('0');
     firstTerm = operator = secondTerm = undefined;
+    highlightOperator('Enter');
 };
 
 function changeSign() {
@@ -98,11 +100,26 @@ function calculate(firstTerm, operator, secondTerm) {
     return preventLargeResult(result.toString());
 };
 
-function setVariablesForCalculate() {
+function  setVariablesForCalculate() {
     secondTerm = getDisplay();
     setDisplay(calculate(firstTerm, operator, secondTerm));
     firstTerm = getDisplay();
     secondTerm = undefined;
+};
+
+function highlightOperator(INPUT) {
+    if (INPUT === 'Enter'){
+        OPERATORS.forEach(button => {
+            button.style.backgroundColor = 'orange';
+        });
+    } else {
+        OPERATORS.forEach(button => {
+            if (INPUT === button.attributes[0].nodeValue) {
+                button.style.backgroundColor = 'rgb(255, 184, 51)';
+                return;
+            };
+        });
+    };
 };
 
 // Event Listeners
@@ -121,6 +138,7 @@ function setVariablesForCalculate() {
         if (exceedsLengthLimit() && restartDisplay === false) return;
         if (getDisplay() === '0' || restartDisplay) {
             setDisplay(INPUT);
+            highlightOperator('Enter')
             restartDisplay = false;
         } else {
             addNumberToDisplay(INPUT);
@@ -145,6 +163,7 @@ function setVariablesForCalculate() {
 
     if (!operator) {
         operator = INPUT;
+        highlightOperator(INPUT);
         firstTerm = getDisplay();
         restartDisplay = true;
     } else if (firstTerm && INPUT !== 'Enter') {
@@ -155,6 +174,7 @@ function setVariablesForCalculate() {
     if (INPUT === 'Enter') {
         setVariablesForCalculate();
         operator = undefined;
+        highlightOperator(INPUT);
         restartDisplay = true;
     };
 }));
