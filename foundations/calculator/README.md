@@ -7,7 +7,7 @@ A simple calculator that allows the user to perform basic arithmetic operations.
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [How do I Access the program?](#how-do-i-access-the-program)
-- [Utility](Utility)
+- [Utility](#utility)
 
 ## Features
 
@@ -32,6 +32,6 @@ A simple calculator that allows the user to perform basic arithmetic operations.
 
 This program was a great way to:
 - Understand the concept of the attribute 'value' in HTML and use it for my benefit, some other attributes were also studied but not applied to the final result of the program.
-- Deepen my programming logic by calculating the operations without the '```js eval() ```' function for example, maintaining a fairly secure place to input the user's values.
+- Deepen my programming logic by calculating the operations without the '```eval()```' function for example, maintaining a fairly secure place to input the user's values.
 - Geting experience about code design given the fact that the code was some times hard to follow, and, for this, having the need to refactor it, I added a bunch of functions that
   I believe that will make the readability better.
